@@ -8,6 +8,7 @@ dotenv.config();
 // Local imports
 import errorHandler from './utils/errorHandler.js';
 import mongoConnect from './utils/mongoConnect.js';
+import authRoute from './routes/authRoute.js';
 
 mongoConnect();
 
@@ -21,6 +22,8 @@ app.use(
   })
 );
 app.use(errorHandler);
+
+app.use('/api/auth', authRoute);
 
 mongoose.connection.once('open', () => {
   console.log('Connected to database');

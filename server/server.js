@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Local imports
+import errorHandler from './utils/errorHandler.js';
 import mongoConnect from './utils/mongoConnect.js';
 
 mongoConnect();
@@ -19,10 +20,11 @@ app.use(
     credentials: true,
   })
 );
+app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
   console.log('Connected to database');
   app.listen(process.env.PORT, function () {
-    console.log(`Server is running on port : ${process.env.PORT}`);
+    console.log(`Server is running on port:${process.env.PORT}`);
   });
 });

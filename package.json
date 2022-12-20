@@ -1,0 +1,9 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Kunwar-Aditya-Codes/chat-app.git",
+  "author": "Kunwar Aditya <adityakunwar0147@gmail.com>",
+  "license": "MIT",
+  "scripts": {}
+}

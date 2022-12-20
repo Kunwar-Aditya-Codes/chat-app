@@ -21,9 +21,10 @@ app.use(
     credentials: true,
   })
 );
-app.use(errorHandler);
 
 app.use('/api/auth', authRoute);
+
+app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
   console.log('Connected to database');

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const mongoConnect = async () => {
   try {
@@ -9,4 +9,4 @@ const mongoConnect = async () => {
   }
 };
 
-export default mongoConnect;
+module.exports = mongoConnect;

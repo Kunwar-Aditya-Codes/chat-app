@@ -1,20 +1,22 @@
 // Packaged imports
-import express from 'express';
-import mongoose, { mongo } from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+require('express-async-errors');
 dotenv.config();
 
 // Local imports
-import errorHandler from './utils/errorHandler.js';
-import mongoConnect from './utils/mongoConnect.js';
-import authRoute from './routes/authRoute.js';
+const errorHandler = require('./utils/errorHandler');
+const mongoConnect = require('./utils/mongoConnect');
 
 mongoConnect();
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: 'http://localhost:5173',
@@ -22,9 +24,9 @@ app.use(
   })
 );
 
-app.use('/api/auth', authRoute);
+// app.use(errorHandler);
 
-app.use(errorHandler);
+app.use('/api/auth', require('./routes/authRoute'));
 
 mongoose.connection.once('open', () => {
   console.log('Connected to database');

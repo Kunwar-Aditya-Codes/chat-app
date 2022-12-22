@@ -8,7 +8,8 @@ require('express-async-errors');
 dotenv.config();
 
 // Local imports
-const errorHandler = require('./utils/errorHandler');
+const errorHandler = require('./middleware/errorHandler');
+const corsOptions = require('./utils/corsOptions');
 const mongoConnect = require('./utils/mongoConnect');
 
 mongoConnect();
@@ -17,14 +18,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-  })
-);
-
-// app.use(errorHandler);
+app.use(cors(corsOptions));
+app.use(errorHandler);
 
 app.use('/api/auth', require('./routes/authRoute'));
 

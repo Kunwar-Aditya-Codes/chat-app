@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, profileImage } = req.body;
 
   if (!username || !email || !password) {
     return res.status(400).json({
@@ -25,6 +25,7 @@ exports.register = async (req, res) => {
     username,
     email,
     password: hashedPassword,
+    profileImage,
   });
 
   res.status(201).json({

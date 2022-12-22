@@ -22,6 +22,7 @@ app.use(cors(corsOptions));
 app.use(errorHandler);
 
 app.use('/api/auth', require('./routes/authRoute'));
+app.use('/api/message', require('./routes/messageRoute'));
 
 mongoose.connection.once('open', () => {
   console.log('Connected to database');

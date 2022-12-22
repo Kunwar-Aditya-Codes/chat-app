@@ -139,4 +139,18 @@ exports.refresh = async (req, res) => {
   });
 };
 
-exports.logout = async (req, res) => {};
+exports.logout = async (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies.refreshToken) {
+    return res.status(203).json({
+      message: 'No content',
+    });
+  }
+
+  res.clearCookie('refreshToken');
+
+  res.status(200).json({
+    message: 'User logged out successfully',
+  });
+};

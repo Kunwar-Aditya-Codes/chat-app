@@ -23,6 +23,7 @@ app.use(errorHandler);
 
 app.use('/api/auth', require('./routes/authRoute'));
 app.use('/api/user', require('./routes/userRoute'));
+app.use('/api/chat', require('./routes/chatRoute'));
 
 mongoose.connection.once('open', () => {
   console.log('Connected to database');

@@ -6,7 +6,7 @@ exports.createChat = async (req, res) => {
 
   if (!userId) return res.status(400).json({ error: 'User id is required' });
 
-  let foundChat = await Chat.findOne({
+  let foundChat = await Chat.find({
     isGroup: false,
     $and: [
       { users: { $elemMatch: { $eq: req.userId } } },
@@ -21,9 +21,8 @@ exports.createChat = async (req, res) => {
     select: '-password',
   });
 
-  if (foundChat) {
-    console.log('foundChat');
-    return res.status(200).json(foundChat);
+  if (foundChat.length > 0) {
+    return res.status(200).json(foundChat[0]);
   }
 
   const newChat = await Chat.create({
@@ -41,7 +40,7 @@ exports.createChat = async (req, res) => {
 };
 
 exports.getChat = async (req, res) => {
-  let foundChat = await Chat.findOne({
+  let foundChat = await Chat.find({
     users: {
       $elemMatch: { $eq: req.userId },
     },
@@ -165,5 +164,3 @@ exports.removeUserGroupChat = async (req, res) => {
 
   res.status(200).json(updatedChat);
 };
-
-

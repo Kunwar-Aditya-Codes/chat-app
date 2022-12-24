@@ -5,6 +5,8 @@ const {
   getChat,
   createGroupChat,
   addUserGroupChat,
+  getUsersGroupChat,
+  removeUserGroupChat,
 } = require('../controller/chatController');
 
 router.use((req, res, next) => {
@@ -14,7 +16,11 @@ router.use((req, res, next) => {
 
 router.route('/').post(verifyHandler, createChat).get(verifyHandler, getChat);
 
-router.route('/group').post(verifyHandler, createGroupChat);
+router
+  .route('/group')
+  .post(verifyHandler, createGroupChat)
+  .get(verifyHandler, getUsersGroupChat)
+  .delete(verifyHandler, removeUserGroupChat);
 
 router.route('/group/add').post(verifyHandler, addUserGroupChat);
 

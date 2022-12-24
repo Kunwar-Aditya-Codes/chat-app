@@ -116,4 +116,52 @@ exports.addUserGroupChat = async (req, res) => {
   res.status(200).json(updatedChat);
 };
 
+exports.getUsersGroupChat = async (req, res) => {
+  const { chatId } = req.body;
 
+  if (!chatId) return res.status(400).json({ error: 'Chat id is required' });
+
+  const foundChat = await Chat.findOne({ _id: chatId });
+
+  if (!foundChat) return res.status(400).json({ error: 'Chat not found' });
+
+  if (!foundChat.isGroup)
+    return res.status(400).json({ error: 'Chat is not a group' });
+
+  const populatedChat = await foundChat.populate('users', '-password');
+
+  res.status(200).json(populatedChat.users);
+};
+
+exports.removeUserGroupChat = async (req, res) => {
+  const { chatId, userId } = req.body;
+
+  if (!chatId || !userId)
+    return res.status(400).json({ error: 'Chat id and user id are required' });
+
+  const foundChat = await Chat.findOne({ _id: chatId });
+
+  if (!foundChat) return res.status(400).json({ error: 'Chat not found' });
+
+  if (!foundChat.isGroup)
+    return res.status(400).json({ error: 'Chat is not a group' });
+
+  const usersInChat = foundChat.users.find((user) => {
+    return user.toString() === userId;
+  });
+
+  if (!usersInChat)
+    return res.status(201).json({ message: 'User is not in the chat' });
+
+  const newUsers = foundChat.users.filter((user) => {
+    return user.toString() !== userId;
+  });
+
+  const updatedChat = await Chat.findOneAndUpdate(
+    { _id: chatId },
+    { users: newUsers },
+    { new: true }
+  );
+
+  res.status(200).json(updatedChat);
+};

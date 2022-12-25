@@ -1,8 +1,14 @@
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './Pages/Home';
+
 function App() {
   return (
-    <div className='min-h-screen flex items-center bg-black text-white justify-center text-4xl'>
-      <h1>Hello</h1>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path='/' index element={<Home />} />
+      </Route>
+    </Routes>
   );
 }
 

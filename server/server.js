@@ -32,3 +32,15 @@ mongoose.connection.once('open', () => {
     console.log(`Server is running on port:${process.env.PORT}`);
   });
 });
+
+// TODO - Socket.io connection after frontend is ready
+// const io = require('socket.io')(server, {
+//   pingTimeout: 60000,
+//   cors: {
+//     origin: 'http://localhost:5173',
+//   },
+// });
+
+// io.on('connection', (socket) => {
+//   console.log('Connected to socket io!');
+// });

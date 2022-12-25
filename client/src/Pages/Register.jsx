@@ -14,6 +14,31 @@ const Register = () => {
     setUserData({ ...userData, [name]: value });
   };
 
+  const handleImage = async (file) => {
+    if (file === undefined) return;
+
+    if (file.type === 'image/jpeg' || file.type === 'image/png') {
+      const data = new FormData();
+      data.append('file', file);
+      data.append('upload_preset', 'chat-app');
+      data.append('cloud_name', 'aditya-kunwar');
+
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/aditya-kunwar/image/upload',
+        {
+          method: 'POST',
+          body: data,
+        }
+      );
+
+      const resData = await res.json();
+      console.log(resData);
+      setUserData({ ...userData, profileImage: resData.url.toString() });
+    } else {
+      alert('Please upload a valid image');
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(userData);
@@ -61,7 +86,7 @@ const Register = () => {
           id='profileImage'
           name='profileImage'
           accept='image/png, image/jpeg'
-          onChange={handleInput}
+          onChange={(e) => handleImage(e.target.files[0])}
           required
           className='cursor-pointer border-b-2  border-sky-900/40 bg-transparent pb-2 pl-2 outline-none file:mr-4 file:cursor-pointer file:rounded-full file:border-none file:bg-sky-900/10 file:px-4 file:py-1 file:text-sky-500 focus:border-sky-700 md:text-lg '
         />

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -8,6 +9,7 @@ const Register = () => {
     password: '',
     profileImage: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -15,7 +17,13 @@ const Register = () => {
   };
 
   const handleImage = async (file) => {
-    if (file === undefined) return;
+    setLoading(true);
+
+    if (file === undefined) {
+      toast.error('Please select a valid image file');
+      setLoading(false);
+      return;
+    }
 
     if (file.type === 'image/jpeg' || file.type === 'image/png') {
       const data = new FormData();
@@ -34,8 +42,11 @@ const Register = () => {
       const resData = await res.json();
       console.log(resData);
       setUserData({ ...userData, profileImage: resData.url.toString() });
+      toast.success('Image uploaded successfully');
+      setLoading(false);
     } else {
-      alert('Please upload a valid image');
+      toast.error('Please select a valid image file');
+      setLoading(false);
     }
   };
 
@@ -93,6 +104,7 @@ const Register = () => {
 
         <button
           type='submit'
+          isLoading={loading}
           disabled={
             !userData.username ||
             !userData.email ||

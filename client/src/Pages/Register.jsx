@@ -80,7 +80,7 @@ const Register = () => {
           value={userData.email}
           onChange={handleInput}
           required
-          autoComplete='off'
+          autoComplete='nope'
           className='border-b-2 border-sky-900/40 bg-transparent pb-2 pl-2 outline-none focus:border-sky-700 md:text-lg '
         />
         <input

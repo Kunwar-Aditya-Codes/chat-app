@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
   return (
-    <div className='flex h-screen flex-col bg-gradient-to-br from-[#040814] via-[#030a1a] to-[#050514] text-[#d8d8d8]'>
+    <div className='flex h-screen flex-col overflow-hidden bg-gradient-to-br from-[#040814] via-[#030a1a] to-[#050514] text-[#d8d8d8]'>
       <div className='flex-grow'>
         <Outlet />
       </div>

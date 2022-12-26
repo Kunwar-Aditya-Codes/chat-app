@@ -1,12 +1,13 @@
+import ChatSidePanel from '../components/ChatSidePanel';
 import UserInfoTab from '../components/UserInfoTab';
 
 const Chat = () => {
   return (
-    <div className='max-w-8xl mx-auto h-full  p-4'>
+    <div className='mx-auto h-[45rem] max-w-[90rem]   p-4'>
       <UserInfoTab />
-      {/* Sidepanel */}
-      {/* Search */}
-      {/* Userlist */}
+      <div className='flex h-full '>
+        <ChatSidePanel />
+      </div>
     </div>
   );
 };

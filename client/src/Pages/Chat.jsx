@@ -1,3 +1,4 @@
+import ChatContainer from '../components/ChatContainer';
 import ChatSidePanel from '../components/ChatSidePanel';
 import UserInfoTab from '../components/UserInfoTab';
 
@@ -7,6 +8,7 @@ const Chat = () => {
       <UserInfoTab />
       <div className='flex h-full '>
         <ChatSidePanel />
+        <ChatContainer />
       </div>
     </div>
   );

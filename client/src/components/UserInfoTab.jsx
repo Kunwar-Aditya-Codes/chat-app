@@ -8,7 +8,7 @@ const UserInfoTab = () => {
         <h1>Username</h1>
       </div>
       <div>
-        <button className='rounded-md bg-sky-900/20 p-2 transition ease-in hover:bg-sky-900/90'>
+        <button className='rounded-md bg-sky-900/20 p-2 transition ease-in hover:bg-sky-700'>
           <PowerIcon className='h-4 w-4' />
         </button>
       </div>

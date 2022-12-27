@@ -90,6 +90,15 @@ const Register = () => {
       navigate('/login');
       setLoading(false);
     }
+
+    setLoading(false);
+
+    setUserData({
+      username: '',
+      email: '',
+      password: '',
+      profileImage: '',
+    });
   };
 
   return (

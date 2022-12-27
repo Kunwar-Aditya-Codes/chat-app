@@ -10,12 +10,11 @@ const Login = () => {
     email: '',
     password: '',
   });
-  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -25,7 +24,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
     toast.loading('Logging in...', { id: 'login' });
 
     if (!userData.email || !userData.password) {
@@ -38,14 +36,12 @@ const Login = () => {
     if (res.data) {
       dispatch(setToken(res.data.accessToken));
       toast.dismiss('login');
-      setLoading(false);
       navigate('/chat');
     }
 
     if (res.error) {
       toast.dismiss('login');
       toast.error(res.error?.data?.message || 'Something went wrong');
-      setLoading(false);
       return;
     }
   };

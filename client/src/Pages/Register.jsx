@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useRegisterMutation } from '../app/slices/authApiSlice';
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -10,6 +11,10 @@ const Register = () => {
     profileImage: '',
   });
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const [register] = useRegisterMutation();
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -40,7 +45,6 @@ const Register = () => {
       );
 
       const resData = await res.json();
-      console.log(resData);
       setUserData({ ...userData, profileImage: resData.url.toString() });
       toast.success('Image uploaded successfully');
       setLoading(false);
@@ -50,10 +54,42 @@ const Register = () => {
     }
   };
 
-  //TODO! - Complete the handleSubmit function
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userData);
+
+    setLoading(true);
+    if (
+      !userData.username ||
+      !userData.email ||
+      !userData.password ||
+      !userData.profileImage
+    ) {
+      toast.error('All fields are required!');
+      setLoading(false);
+      return;
+    }
+
+    const res = await register({
+      ...userData,
+    });
+
+    if (res.error) {
+      if (res.error.status === 400) {
+        toast.error(res.error.data.message);
+        setLoading(false);
+        return;
+      }
+
+      toast.error(res.error.error);
+      setLoading(false);
+      return;
+    }
+
+    if (res.data) {
+      toast.success('Registration successful!');
+      navigate('/login');
+      setLoading(false);
+    }
   };
 
   return (
@@ -105,7 +141,7 @@ const Register = () => {
 
         <button
           type='submit'
-          isLoading={loading}
+          isloading={loading.toString()}
           disabled={
             !userData.username ||
             !userData.email ||

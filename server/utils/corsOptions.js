@@ -2,16 +2,14 @@ const allowedOrigins = ['http://localhost:5173'];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg =
-        'The CORS policy for this site does not ' +
-        'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by cors'));
     }
-    return callback(null, true);
   },
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 module.exports = corsOptions;

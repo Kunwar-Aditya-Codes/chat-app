@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../app/slices/authSlice';
+import { useLoginMutation } from '../app/slices/authApiSlice';
 
 const Login = () => {
   const [userData, setUserData] = useState({
@@ -7,15 +11,35 @@ const Login = () => {
     password: '',
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login, { isLoading }] = useLoginMutation();
+
   const handleInput = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
 
-  //TODO! - Complete the handleSubmit function
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userData);
+
+    if (!userData.email || !userData.password) {
+      toast.error('Please fill all the fields');
+      return;
+    }
+
+    const res = await login(userData);
+
+    if (res.data) {
+      dispatch(setToken(res.data.accessToken));
+      navigate('/chat');
+    }
+
+    if (res.error) {
+      toast.error(res.error?.data?.message || 'Something went wrong');
+      return;
+    }
   };
 
   return (

@@ -1,5 +1,11 @@
+import { selectToken } from '../app/slices/authSlice';
+import { useSelector } from 'react-redux';
+
 const ChatContainer = () => {
   const chat = false;
+  const token = useSelector(selectToken);
+
+  console.log(token);
 
   return (
     <div className='flex h-[40rem] flex-grow flex-col  rounded-md bg-sky-900/10 p-4'>

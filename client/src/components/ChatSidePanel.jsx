@@ -1,6 +1,6 @@
 const ChatSidePanel = () => {
   return (
-    <div className='mr-4  flex h-[40rem]  flex-col space-y-6 border-r-2 border-r-sky-900/30 pr-4'>
+    <div className='mr-4 hidden h-[40rem] flex-col space-y-6 overflow-x-hidden  border-r-2 border-r-sky-900/30 pr-4 md:flex'>
       <div className='mt-2'>
         <input
           type='text'

@@ -1,18 +1,15 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+// ! Add username in the token payload in backend
 
 const RequireAuth = () => {
   const location = useLocation();
-  const { username } = useAuth();
+  const username = useAuth()?.username;
 
   const content = username ? (
     <Outlet />
   ) : (
-    <Navigate
-      to={{
-        pathname: '/login',
-        state: { from: location.pathname },
-      }}
-    />
+    <Navigate to='/login' state={{ from: location.pathname }} replace />
   );
 
   return content;

@@ -128,6 +128,7 @@ exports.refresh = async (req, res) => {
   const accessToken = jwt.sign(
     {
       id: foundUser._id,
+      username: foundUser.username,
       email: foundUser.email,
     },
     process.env.ACCESS_TOKEN,

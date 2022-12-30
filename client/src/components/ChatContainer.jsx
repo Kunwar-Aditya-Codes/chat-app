@@ -1,9 +1,15 @@
+import useAuth from '../hooks/useAuth';
+
 const ChatContainer = () => {
-  const chat = false;
+  const username = useAuth()?.username;
 
   return (
     <div className='flex h-[40rem] flex-grow flex-col rounded-md bg-sky-900/10 p-4'>
-      {chat ? (
+      {username ? (
+        <h1 className='flex h-full items-center justify-center text-center text-4xl'>
+          Welcome back {username}!
+        </h1>
+      ) : (
         <>
           <div className='mb-4  flex-grow overflow-y-scroll p-4'>
             <h1 className='w-fit rounded-md bg-sky-700 py-2 px-4 text-lg font-light'>
@@ -20,10 +26,6 @@ const ChatContainer = () => {
             />
           </div>
         </>
-      ) : (
-        <h1 className='flex h-full items-center justify-center text-center text-4xl'>
-          Welcome back User!
-        </h1>
       )}
     </div>
   );

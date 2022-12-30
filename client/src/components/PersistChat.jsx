@@ -15,10 +15,8 @@ const PersistChat = () => {
     useRefreshMutation();
 
   useEffect(() => {
-    if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
+    if (effectRan.current === true) {
       const verifyToken = async () => {
-        console.log('verifyToken');
-
         try {
           await refresh();
           setSuccess(true);
@@ -39,24 +37,21 @@ const PersistChat = () => {
 
   let content;
   if (!persist) {
-    console.log('no persist');
     content = <Outlet />;
   } else if (isLoading) {
-    console.log('isLoading');
     content = <div>Loading...</div>;
   } else if (isError) {
-    console.log('isError');
     content = (
-      <div>
-        <div>{error.message}</div>
-        <Link to='/login'>Login</Link>
+      <div className='flex h-screen flex-col items-center justify-center space-y-4'>
+        <div className='text-4xl'>{error.data.message} </div>
+        <Link to='/login' className='text-xl underline underline-offset-4'>
+          Login
+        </Link>
       </div>
     );
   } else if (isSuccess && success) {
-    console.log('isSuccess');
     content = <Outlet />;
-  } else if (isUninitialized) {
-    console.log('isUninitialized');
+  } else if (token && isUninitialized) {
     content = <Outlet />;
   }
 

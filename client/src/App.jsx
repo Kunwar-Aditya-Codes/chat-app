@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
 import RequireAuth from './components/RequireAuth';
+import PersistChat from './components/PersistChat';
 
 function App() {
   return (
@@ -14,8 +15,10 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
 
-        <Route element={<RequireAuth />}>
-          <Route path='/chat' element={<Chat />} />
+        <Route element={<PersistChat />}>
+          <Route element={<RequireAuth />}>
+            <Route path='/chat' element={<Chat />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

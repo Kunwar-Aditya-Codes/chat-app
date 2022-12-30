@@ -8,8 +8,10 @@ const useAuth = () => {
   if (token) {
     const decoded = jwtDecode(token);
 
-    console.log('decoded', decoded);
+    return decoded;
   }
+
+  return null;
 };
 
 export default useAuth;

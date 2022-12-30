@@ -12,6 +12,7 @@ const verifyJwt = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
     if (err) return res.status(403).json({ message: 'Forbidden!' });
     req.userId = decoded.id;
+    req.username = decoded.username;
     req.email = decoded.email;
     next();
   });

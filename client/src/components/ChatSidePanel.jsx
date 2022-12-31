@@ -13,6 +13,7 @@ const ChatSidePanel = () => {
   const [allUsers, setAllUsers] = useState([]);
 
   const username = useAuth()?.username;
+  const loggedUserId = useAuth()?.id;
 
   const [searchUsers, { data, isLoading, isError, isSuccess }] =
     useSearchUsersMutation();
@@ -39,12 +40,13 @@ const ChatSidePanel = () => {
     }
   );
 
-  console.log(chatDataQuery);
-
   useEffect(() => {
     if (search === '' && isChatSuccessQuery) {
-      console.log("I'm here");
-      setAllUsers(chatDataQuery.map((chat) => chat.users[1]));
+      setAllUsers(
+        chatDataQuery.map((chat) =>
+          chat.users.find((user) => user._id !== loggedUserId)
+        )
+      );
     }
 
     if (search.length > 2) {

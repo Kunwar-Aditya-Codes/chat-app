@@ -43,7 +43,9 @@ const PersistChat = () => {
   } else if (isError) {
     content = (
       <div className='flex h-screen flex-col items-center justify-center space-y-4'>
-        <div className='text-4xl'>{error.data.message} </div>
+        <div className='text-4xl'>
+          {error.data?.message || 'Something went wrong.'}
+        </div>
         <Link to='/login' className='text-xl underline underline-offset-4'>
           Login
         </Link>

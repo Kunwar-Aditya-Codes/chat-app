@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchUsersMutation } from '../app/slices/userSearchApiSlice';
+import { useSearchUsersMutation } from '../app/slices/userApiSlice';
 
 const ChatSidePanel = () => {
   const [search, setSearch] = useState('');

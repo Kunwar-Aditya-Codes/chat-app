@@ -1,5 +1,15 @@
 const User = require('../schema/User');
 
+exports.getLoggedInUser = async (req, res) => {
+  const user = await User.findById(req.userId).select('-password').exec();
+
+  if (!user) {
+    return res.status(404).json({ msg: 'User not found' });
+  }
+
+  res.status(200).json({ user });
+};
+
 exports.getSearchUser = async (req, res) => {
   const { search } = req.query;
 

@@ -4,7 +4,7 @@ import UserInfoTab from '../components/UserInfoTab';
 
 const Chat = () => {
   return (
-    <div className='mx-auto h-[45rem] max-w-[90rem]   p-4'>
+    <div className='mx-auto h-[45rem] max-w-[90rem] p-4'>
       <UserInfoTab />
       <div className='flex h-full '>
         <ChatSidePanel />

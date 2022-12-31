@@ -9,7 +9,9 @@ exports.getSearchUser = async (req, res) => {
       { username: { $regex: search, $options: 'i' } },
       { email: { $regex: search, $options: 'i' } },
     ],
-  }).exec();
+  })
+    .select('-password')
+    .exec();
 
   if (!users) {
     return res.status(404).json({ msg: 'User not found' });

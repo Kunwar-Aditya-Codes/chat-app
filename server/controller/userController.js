@@ -25,4 +25,15 @@ exports.getUser = async (req, res) => {
 // @route   GET api/user
 // @desc    Get logged in user
 // @access  Private
-exports.getLoggedInUser = async (req, res) => {};
+exports.getLoggedInUser = async (req, res) => {
+  const foundUser = await User.findById(req.userId)
+    .select('-password')
+    .lean()
+    .exec();
+
+  if (!foundUser) {
+    return res.status(203).json({ message: 'No user found' });
+  }
+
+  res.status(200).json(foundUser);
+};

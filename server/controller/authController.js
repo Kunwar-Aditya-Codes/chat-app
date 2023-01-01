@@ -122,4 +122,18 @@ exports.refresh = async (req, res) => {
 // @route   GET api/auth/logout
 // @desc    Logout a user
 // @access  Private
-exports.logout = async (req, res) => {};
+exports.logout = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(203).json({
+      message: 'No token',
+    });
+  }
+
+  res.clearCookie('refreshToken');
+
+  return res.status(200).json({
+    message: 'Logged out successfully',
+  });
+};

@@ -17,6 +17,9 @@ app.use(express.json()); // Parse JSON bodies
 app.use(cors()); // Enable CORS
 app.use(errorHandler); // Error handler
 
+// Routes
+app.use('/api/auth', require('./view/authRoute'));
+
 mongoose.connection.once('open', () => {
   console.log('Connected to db!');
   app.listen(PORT, () => {

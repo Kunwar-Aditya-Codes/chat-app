@@ -1,5 +1,6 @@
 const User = require('../model/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // @route   POST api/auth/register
 // @desc    Register a user
@@ -30,6 +31,8 @@ exports.register = async (req, res) => {
     profilePic,
   });
 
+  await newUser.save();
+
   return res.status(201).json({
     message: 'User created successfully',
   });
@@ -38,7 +41,50 @@ exports.register = async (req, res) => {
 // @route   POST api/auth/login
 // @desc    Login a user
 // @access  Public
-exports.login = async (req, res) => {};
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      message: 'Please enter all fields',
+    });
+  }
+
+  const foundUser = await User.findOne({ email }).lean().exec();
+
+  if (!foundUser) {
+    return res.status(400).json({
+      message: 'Invalid credentials',
+    });
+  }
+
+  const isMatch = await bcrypt.compare(password, foundUser.password);
+
+  if (!isMatch) {
+    return res.status(400).json({
+      message: 'Invalid credentials',
+    });
+  }
+
+  const accessToken = jwt.sign(
+    { id: foundUser._id, email: foundUser.email },
+    process.env.ACCESS_TOKEN,
+    { expiresIn: '15m' }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: foundUser._id },
+    process.env.REFRESH_TOKEN,
+    { expiresIn: '7d' }
+  );
+
+  res.cookie('refreshToken', refreshToken, {});
+
+  return res.status(200).json({
+    message: 'Logged in successfully',
+    accessToken,
+  });
+};
 
 // @route   GET api/auth/refresh
 // @desc    Refresh token

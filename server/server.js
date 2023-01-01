@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('express-async-errors');
 require('dotenv').config();
 
@@ -14,6 +15,7 @@ const app = express();
 connectDb(); // Connect to db before starting the server
 
 app.use(express.json()); // Parse JSON bodies
+app.use(cookieParser()); // Parse cookies
 app.use(cors()); // Enable CORS
 app.use(errorHandler); // Error handler
 

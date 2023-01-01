@@ -89,7 +89,35 @@ exports.login = async (req, res) => {
 // @route   GET api/auth/refresh
 // @desc    Refresh token
 // @access  Private
-exports.refresh = async (req, res) => {};
+exports.refresh = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({
+      message: 'Unauthorized',
+    });
+  }
+
+  const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN);
+
+  const foundUser = await User.findById(decoded.id).lean().exec();
+
+  if (!foundUser) {
+    return res.status(400).json({
+      message: 'Invalid credentials',
+    });
+  }
+
+  const accessToken = jwt.sign(
+    { id: foundUser._id, email: foundUser.email },
+    process.env.ACCESS_TOKEN,
+    { expiresIn: '15m' }
+  );
+
+  return res.status(200).json({
+    accessToken,
+  });
+};
 
 // @route   GET api/auth/logout
 // @desc    Logout a user

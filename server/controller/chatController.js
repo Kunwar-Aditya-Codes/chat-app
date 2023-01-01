@@ -1,9 +1,8 @@
 const Chat = require('../model/Chat');
-const User = require('../model/User');
 
 // @route   POST api/chat
 // @desc    Create a chat
-// @access  Public
+// @access  Private
 exports.createChat = async (req, res) => {
   const { senderId, receiverId } = req.body;
 
@@ -40,7 +39,7 @@ exports.createChat = async (req, res) => {
 
 // @route   GET api/chat/:userid
 // @desc    Get all chats
-// @access  Public
+// @access  Private
 exports.getChat = async (req, res) => {
   const { userid } = req.params;
 
@@ -58,3 +57,5 @@ exports.getChat = async (req, res) => {
 
   res.status(200).json(foundChat);
 };
+
+// ! Group Chat and Its Other Functions later

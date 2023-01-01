@@ -21,6 +21,7 @@ app.use(errorHandler); // Error handler
 
 // Routes
 app.use('/api/auth', require('./view/authRoute'));
+app.use('/api/chat', require('./view/chatRoute'));
 
 mongoose.connection.once('open', () => {
   console.log('Connected to db!');

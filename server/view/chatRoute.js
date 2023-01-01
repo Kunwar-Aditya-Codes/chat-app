@@ -7,6 +7,6 @@ router.use((req, res, next) => {
 });
 
 router.post('/', createChat);
-router.get('/:chatid', getChat);
+router.get('/:userid', getChat);
 
 module.exports = router;

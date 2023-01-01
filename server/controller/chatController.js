@@ -38,7 +38,23 @@ exports.createChat = async (req, res) => {
   res.status(200).json(populatedChat);
 };
 
-// @route   GET api/chat/:chatid
+// @route   GET api/chat/:userid
 // @desc    Get all chats
 // @access  Public
-exports.getChat = async (req, res) => {};
+exports.getChat = async (req, res) => {
+  const { userid } = req.params;
+
+  if (!userid) {
+    return res.status(400).json({ msg: 'Missing fields' });
+  }
+
+  const foundChat = await Chat.find({
+    users: { $in: [userid] },
+  }).populate('users', 'username email profilePicture');
+
+  if (!foundChat) {
+    return res.status(400).json({ msg: 'No chats found' });
+  }
+
+  res.status(200).json(foundChat);
+};

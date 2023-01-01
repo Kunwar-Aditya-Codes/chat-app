@@ -10,6 +10,6 @@ router.use((req, res, next) => {
 });
 
 router.post('/', createMessage);
-router.get('/:chatid', getMessages);
+router.get('/:chatId', getMessages);
 
 module.exports = router;

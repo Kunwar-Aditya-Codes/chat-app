@@ -26,7 +26,24 @@ exports.createMessage = async (req, res) => {
   res.status(200).json(populatedMessage);
 };
 
-// @route   GET api/message/:chatid
+// @route   GET api/message/:chatId
 // @desc    Get all messages from a chat
 // @access  Private
-exports.getMessages = async (req, res) => {};
+exports.getMessages = async (req, res) => {
+  const { chatId } = req.params;
+
+  if (!chatId) {
+    return res.status(400).json({ message: 'Missing fields' });
+  }
+
+  const foundMessages = await Message.find({ chatId }).populate(
+    'sender',
+    'username email profilePicture'
+  );
+
+  if (!foundMessages) {
+    return res.status(203).json({ message: 'No messages found' });
+  }
+
+  res.status(200).json(foundMessages);
+};

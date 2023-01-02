@@ -1,5 +1,15 @@
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Welcome from './pages/Welcome';
+
 function App() {
-  return <div className='text-center'>Hello world!</div>;
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index path='/' element={<Welcome />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export default App;

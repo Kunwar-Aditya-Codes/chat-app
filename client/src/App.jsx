@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import Register from './pages/Register';
 import Welcome from './pages/Welcome';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index path='/' element={<Welcome />} />
+        <Route path='register' element={<Register />} />
       </Route>
     </Routes>
   );

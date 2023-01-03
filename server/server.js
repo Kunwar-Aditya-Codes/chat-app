@@ -7,6 +7,7 @@ require('dotenv').config();
 
 // External modules
 const connectDb = require('./utils/mongoConnect');
+const corsOptions = require('./utils/corsConfig');
 const errorHandler = require('./middleware/errorHandler');
 
 const PORT = process.env.PORT || 5000;
@@ -16,7 +17,7 @@ connectDb(); // Connect to db before starting the server
 
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-app.use(cors()); // Enable CORS
+app.use(cors(corsOptions)); // Enable CORS
 app.use(errorHandler); // Error handler
 
 // Routes

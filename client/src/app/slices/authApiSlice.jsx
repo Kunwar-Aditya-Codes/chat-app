@@ -1,4 +1,5 @@
 import { apiSlice } from '../apiSlice';
+import { setCredentials } from './authSlice';
 
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,6 +21,17 @@ const authApiSlice = apiSlice.injectEndpoints({
           ...data,
         },
       }),
+    }),
+
+    refresh: builder.mutation({
+      query: () => ({
+        url: '/auth/refresh',
+        method: 'GET',
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const res = await queryFulfilled;
+        console.log(res);
+      },
     }),
   }),
 });

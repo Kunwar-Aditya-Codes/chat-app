@@ -56,7 +56,6 @@ const Register = () => {
     const res = await register(userInput);
 
     if (res.error) {
-      console.log(res.error);
       if (res.error.status === 400) {
         toast.error(res.error.data.message, {
           id: 'register',

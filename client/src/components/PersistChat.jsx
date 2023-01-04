@@ -32,8 +32,6 @@ const PersistChat = () => {
     }
 
     return () => (effectRan.current = true);
-
-    // eslint-disable-next-line
   }, []);
 
   let content;

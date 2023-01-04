@@ -23,7 +23,6 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    // ! Remains to be implemented
     refresh: builder.mutation({
       query: () => ({
         url: '/auth/refresh',
@@ -31,10 +30,12 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const res = await queryFulfilled;
-        console.log(res);
+        const accessToken = res.data.accessToken;
+        dispatch(setCredentials({ accessToken }));
       },
     }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation , useRefreshMutation } = authApiSlice;
+export const { useRegisterMutation, useLoginMutation, useRefreshMutation } =
+  authApiSlice;

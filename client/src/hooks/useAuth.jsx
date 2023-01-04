@@ -9,7 +9,7 @@ const useAuth = () => {
   if (token) {
     const decodedToken = jwtDecode(token);
 
-    console.log(decodedToken);
+    uid = decodedToken.id;
 
     return uid;
   }

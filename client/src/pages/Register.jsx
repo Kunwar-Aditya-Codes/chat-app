@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRegisterMutation } from '../app/slices/authApiSlice';
 import toast from 'react-hot-toast';
 
-// ! Error handling and navigation to login page is not done
-
 const Register = () => {
   const [userInput, setUserInput] = useState({
     username: '',
@@ -57,7 +55,25 @@ const Register = () => {
 
     const res = await register(userInput);
 
-    console.log(res);
+    if (res.error) {
+      console.log(res.error);
+      if (res.error.status === 400) {
+        toast.error(res.error.data.message, {
+          id: 'register',
+        });
+      } else {
+        toast.error('Something went wrong', {
+          id: 'register',
+        });
+      }
+      return;
+    }
+
+    toast.success('Registered successfully', {
+      id: 'register',
+    });
+
+    navigate('/login');
 
     setUserInput({
       username: '',

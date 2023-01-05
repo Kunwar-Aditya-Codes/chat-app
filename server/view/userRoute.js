@@ -1,5 +1,9 @@
 const router = require('express').Router();
-const { getUser, getLoggedInUser } = require('../controller/userController');
+const {
+  getUser,
+  getLoggedInUser,
+  searchUsers,
+} = require('../controller/userController');
 const tokenVerifyHandler = require('../middleware/tokenVerifyHandler');
 
 router.use((req, res, next) => {
@@ -9,6 +13,7 @@ router.use((req, res, next) => {
 
 router.use(tokenVerifyHandler);
 
+router.get('/search', searchUsers);
 router.get('/:userId', getUser);
 router.get('/', getLoggedInUser);
 

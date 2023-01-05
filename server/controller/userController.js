@@ -37,3 +37,29 @@ exports.getLoggedInUser = async (req, res) => {
 
   res.status(200).json(foundUser);
 };
+
+// @route   POST api/user/search?query=...
+// @desc    Search for users
+// @access  Private
+exports.searchUsers = async (req, res) => {
+  const { query } = req.query;
+  const userId = req.userId;
+
+  if (!query) {
+    return res.status(400).json({ message: 'Missing fields' });
+  }
+
+  const foundUsers = await User.find({
+    $and: [
+      { _id: { $ne: userId } },
+      {
+        $or: [
+          { username: { $regex: query, $options: 'i' } },
+          { email: { $regex: query, $options: 'i' } },
+        ],
+      },
+    ],
+  });
+
+  res.status(200).json(foundUsers);
+};

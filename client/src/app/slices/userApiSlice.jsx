@@ -8,7 +8,15 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: 'GET',
       }),
     }),
+
+    searchUser: builder.mutation({
+      query: (query) => ({
+        url: `user/search?query=${query}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useGetLoggedInUserMutation } = userApiSlice;
+export const { useGetLoggedInUserMutation, useSearchUserMutation } =
+  userApiSlice;

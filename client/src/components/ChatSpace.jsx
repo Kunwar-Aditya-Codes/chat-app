@@ -2,36 +2,55 @@ import { useEffect, useState } from 'react';
 import { useGetChatsMutation } from '../app/slices/chatApiSlice';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { useSearchUserMutation } from '../app/slices/userApiSlice';
 
 const ChatSpace = () => {
   const id = useAuth();
 
+  const [searchText, setSearchText] = useState('');
   const [userChatList, setUserChatList] = useState([]);
 
   const [getChats, { data, isLoading, error }] = useGetChatsMutation();
 
-  useEffect(() => {
-    getChats(id);
-  }, [getChats]);
+  const [searchUser, { data: searchData }] = useSearchUserMutation();
 
+  // set search data
+  useEffect(() => {
+    if (searchData) {
+      setUserChatList(searchData);
+    }
+  }, [searchData]);
+
+  // get chats
+  useEffect(() => {
+    if (!searchText || searchText.length < 4) {
+      getChats(id);
+    }
+  }, [searchText, getChats, id]);
+
+  // set user chat list
   useEffect(() => {
     if (isLoading) {
       toast.loading('Loading...', { id: 'fetch' });
     }
-
     if (error) {
       toast.error(error.data.message, { id: 'fetch' });
     }
-
     if (data) {
       toast.dismiss('fetch');
       const chats = data.map((chat) =>
         chat.users.find((user) => user._id !== id)
       );
-
       setUserChatList(chats);
     }
   }, [data, isLoading, error]);
+
+  // search user
+  useEffect(() => {
+    if (searchText && searchText.length > 3) {
+      searchUser(searchText);
+    }
+  }, [searchText, searchUser]);
 
   return (
     <div className='flex h-full  '>
@@ -41,6 +60,8 @@ const ChatSpace = () => {
             type='text'
             name='search'
             id='search'
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
             placeholder='Search User'
             className='bg-transparent outline-none border-2 border-indigo-600 p-2 rounded-md'
           />

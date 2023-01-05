@@ -49,7 +49,7 @@ exports.getChat = async (req, res) => {
 
   const foundChat = await Chat.find({
     users: { $in: [userid] },
-  }).populate('users', 'username email profilePicture');
+  }).populate('users', 'username  profilePic');
 
   if (!foundChat) {
     return res.status(400).json({ msg: 'No chats found' });

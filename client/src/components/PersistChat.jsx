@@ -17,7 +17,6 @@ const PersistChat = () => {
   useEffect(() => {
     if (effectRan.current === true) {
       const verifyRefreshToken = async () => {
-        console.log('verifyRefreshToken');
         try {
           await refresh();
           setTrueSuccess(true);
@@ -36,10 +35,8 @@ const PersistChat = () => {
 
   let content;
   if (!persist) {
-    console.log('no persist');
     content = <Outlet />;
   } else if (isLoading) {
-    console.log('isLoading');
     content = <div>Loading...</div>;
   } else if (isError) {
     console.log('isError');
@@ -55,10 +52,8 @@ const PersistChat = () => {
       </div>
     );
   } else if (isSuccess && trueSuccess) {
-    console.log('isSuccess');
     content = <Outlet />;
   } else if (token && isUninitialized) {
-    console.log('isUninitialized');
     console.log(isUninitialized);
     content = <Outlet />;
   }

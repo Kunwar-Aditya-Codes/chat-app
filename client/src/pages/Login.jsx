@@ -45,9 +45,7 @@ const Login = () => {
 
     dispatch(setCredentials({ accessToken: res.data.accessToken }));
 
-    toast.success('Logged in successfully', {
-      id: 'login',
-    });
+    toast.dismiss('login');
 
     navigate('/chat');
 

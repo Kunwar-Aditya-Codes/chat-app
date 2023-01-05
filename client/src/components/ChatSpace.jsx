@@ -1,4 +1,38 @@
+import { useEffect, useState } from 'react';
+import { useGetChatsMutation } from '../app/slices/chatApiSlice';
+import useAuth from '../hooks/useAuth';
+import toast from 'react-hot-toast';
+
 const ChatSpace = () => {
+  const id = useAuth();
+
+  const [userChatList, setUserChatList] = useState([]);
+
+  const [getChats, { data, isLoading, error }] = useGetChatsMutation();
+
+  useEffect(() => {
+    getChats(id);
+  }, [getChats]);
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading('Loading...', { id: 'fetch' });
+    }
+
+    if (error) {
+      toast.error(error.data.message, { id: 'fetch' });
+    }
+
+    if (data) {
+      toast.dismiss('fetch');
+      const chats = data.map((chat) =>
+        chat.users.find((user) => user._id !== id)
+      );
+
+      setUserChatList(chats);
+    }
+  }, [data, isLoading, error]);
+
   return (
     <div className='flex h-full  '>
       <div className='flex-[0.2] bg-gradient-to-br rounded-md from-indigo-600 to-sky-600 p-[0.15rem]'>
@@ -13,36 +47,19 @@ const ChatSpace = () => {
 
           {/* User list */}
           <div className='flex pt-5 flex-col space-y-4 overflow-y-scroll h-[30rem] border-t  border-t-indigo-600  '>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
-            <div className='flex items-center space-x-4 hover:bg-indigo-600/10 p-2 cursor-pointer rounded-md'>
-              <p className=''>Username</p>
-            </div>
+            {userChatList.map((user) => (
+              <div
+                key={user._id}
+                className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900 transition ease-in rounded-md p-2'
+              >
+                <img
+                  src={user.profilePic}
+                  alt='Profile Image'
+                  className='w-8 h-8 rounded-full'
+                />
+                <p>{user.username}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

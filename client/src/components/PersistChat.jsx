@@ -44,7 +44,7 @@ const PersistChat = () => {
   } else if (isError) {
     console.log('isError');
     content = (
-      <div className='min-h-screen bg-zinc-900 text-fuchsia-500 flex items-center justify-center md:text-xl'>
+      <div className='min-h-screen flex items-center justify-center md:text-xl'>
         {error?.data?.message}
         <p>
           <Link to='/login'>

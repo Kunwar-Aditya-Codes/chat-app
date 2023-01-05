@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useGetLoggedInUserMutation } from '../app/slices/userApiSlice';
+import ChatSpace from '../components/ChatSpace';
 
 const Chat = () => {
   const [getLoggedInUser, { data, isLoading, error }] =
@@ -35,7 +36,9 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      <div className='flex-grow bg-red-500 w-full mb-6'>Chat</div>
+      <div className='flex-grow w-full mb-6'>
+        <ChatSpace />
+      </div>
     </div>
   );
 };

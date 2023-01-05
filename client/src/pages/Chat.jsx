@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
+import { useLogoutMutation } from '../app/slices/authApiSlice';
 import { useGetLoggedInUserMutation } from '../app/slices/userApiSlice';
 import ChatSpace from '../components/ChatSpace';
 
 const Chat = () => {
   const [getLoggedInUser, { data, isLoading, error }] =
     useGetLoggedInUserMutation();
+
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     getLoggedInUser();
@@ -29,17 +32,16 @@ const Chat = () => {
               alt='Profile Image'
               className='w-8 h-8 rounded-full'
             />
-
             <p>{data?.username}</p>
           </div>
           <div>
-            <button>Logout</button>
+            <button onClick={() => logout()}>Logout</button>
           </div>
         </div>
       </div>
 
       {/* Chat Space */}
-      <div className='flex-grow  w-full mb-6'>
+      <div className='flex-grow w-full mb-6'>
         <ChatSpace />
       </div>
     </div>

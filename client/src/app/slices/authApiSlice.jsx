@@ -34,8 +34,24 @@ const authApiSlice = apiSlice.injectEndpoints({
         dispatch(setCredentials({ accessToken }));
       },
     }),
+
+    logout: builder.mutation({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'GET',
+      }),
+
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(setCredentials({ accessToken: null }));
+      },
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useRefreshMutation } =
-  authApiSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useRefreshMutation,
+  useLogoutMutation,
+} = authApiSlice;

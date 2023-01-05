@@ -19,7 +19,8 @@ const Chat = () => {
   }
 
   return (
-    <div className='h-full flex flex-col items-center max-w-[90rem] mx-auto w-full '>
+    <div className='h-full flex flex-col items-center max-w-[90rem] mx-auto w-full'>
+      {/* User Header */}
       <div className='mt-4 mb-10 bg-gradient-to-br from-indigo-600 to-sky-600 rounded-md w-full p-[0.1rem] '>
         <div className='bg-black/90 py-3 flex items-center rounded-md justify-between px-4'>
           <div className='flex items-center space-x-4 '>
@@ -36,7 +37,9 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      <div className='flex-grow w-full mb-6'>
+
+      {/* Chat Space */}
+      <div className='flex-grow  w-full mb-6'>
         <ChatSpace />
       </div>
     </div>

@@ -2,12 +2,15 @@ import { useEffect } from 'react';
 import { useLogoutMutation } from '../app/slices/authApiSlice';
 import { useGetLoggedInUserMutation } from '../app/slices/userApiSlice';
 import ChatSpace from '../components/ChatSpace';
+import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
   const [getLoggedInUser, { data, isLoading, error }] =
     useGetLoggedInUserMutation();
 
   const [logout] = useLogoutMutation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getLoggedInUser();
@@ -35,7 +38,9 @@ const Chat = () => {
             <p>{data?.username}</p>
           </div>
           <div>
-            <button onClick={() => logout()}>Logout</button>
+            <button onClick={() => logout().then(() => navigate('/login'))}>
+              Logout
+            </button>
           </div>
         </div>
       </div>

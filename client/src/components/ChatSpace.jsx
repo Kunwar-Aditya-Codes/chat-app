@@ -4,7 +4,6 @@ import {
   useCreateChatMutation,
 } from '../app/slices/chatApiSlice';
 import useAuth from '../hooks/useAuth';
-import toast from 'react-hot-toast';
 import { useSearchUserMutation } from '../app/slices/userApiSlice';
 import ChatContainer from './ChatContainer';
 

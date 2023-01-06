@@ -79,7 +79,7 @@ const ChatSpace = () => {
   return (
     <div className='flex h-full  '>
       <div className='flex-[0.2] bg-indigo-900/20 rounded-md  p-[0.15rem]'>
-        <div className='flex flex-col h-full   space-y-7 rounded-md p-4'>
+        <div className='flex flex-col h-full   space-y-5 rounded-md p-4'>
           <input
             type='text'
             name='search'
@@ -90,13 +90,14 @@ const ChatSpace = () => {
             className='bg-transparent outline-none border-2 border-indigo-600 p-2 rounded-md'
           />
 
+          <hr className='border-t-2 border-t-indigo-600' />
           {/* User list */}
-          <div className='flex pt-5 flex-col space-y-4 overflow-y-scroll h-[30rem] border-t  border-t-indigo-600  '>
+          <div className='flex flex-col space-y-4 overflow-y-scroll h-[30rem]   '>
             {userChatList.map((user) => (
               <div
                 key={user._id}
                 onClick={() => setSelectedUser(user)}
-                className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900/20 transition ease-in rounded-md p-2'
+                className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900/20 transition ease-in rounded-md p-2 mr-3'
               >
                 <img
                   src={user.profilePic}
@@ -111,7 +112,7 @@ const ChatSpace = () => {
       </div>
 
       {/* Chat container */}
-      <div className='flex-grow ml-6'>
+      <div className='flex-grow ml-6 '>
         {currentChat && selectedUser && (
           <ChatContainer
             currentChat={currentChat}

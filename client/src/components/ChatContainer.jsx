@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   useCreateMessageMutation,
   useGetMessagesMutation,
@@ -10,6 +10,8 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
 
   const [textMessage, setTextMessage] = useState('');
   const [messages, setMessages] = useState([]);
+
+  const scrollRef = useRef();
 
   const [createMessage] = useCreateMessageMutation();
   const [getMessages, { data, isLoading, error }] = useGetMessagesMutation();
@@ -44,8 +46,9 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
   }, [data, isLoading, error]);
 
   useEffect(() => {
-    const chatContainer = document.querySelector('#chat-container');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
   return (
@@ -62,15 +65,13 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
           </div>
         </nav>
 
-        <div
-          id='chat-container'
-          className='h-[31rem] overflow-y-scroll flex flex-col  p-2'
-        >
+        <div className='h-[31rem] overflow-y-scroll flex flex-col py-2 pr-10 pl-5'>
           {/* Messages here */}
           {messages &&
             messages.length > 0 &&
             messages.map((message) => (
               <div
+                ref={scrollRef}
                 key={message._id}
                 className={`${
                   message.sender._id === id ? 'justify-end' : 'justify-start'

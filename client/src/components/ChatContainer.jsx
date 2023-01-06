@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import { useCreateMessageMutation } from '../app/slices/messagesApiSlice';
+import { useEffect, useState } from 'react';
+import {
+  useCreateMessageMutation,
+  useGetMessagesMutation,
+} from '../app/slices/messagesApiSlice';
 import useAuth from '../hooks/useAuth';
 
 const ChatContainer = ({ currentChat, selectedUser }) => {
   const id = useAuth();
 
   const [textMessage, setTextMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
   const [createMessage] = useCreateMessageMutation();
+  const [getMessages, { data, isLoading, error }] = useGetMessagesMutation();
 
   const handleCreateMessage = async (e) => {
     e.preventDefault();
@@ -20,6 +25,28 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
       setTextMessage('');
     }
   };
+
+  useEffect(() => {
+    getMessages(currentChat.data._id);
+  }, [currentChat, getMessages]);
+
+  useEffect(() => {
+    if (isLoading) {
+      console.log('fetching messages');
+    }
+    if (error) {
+      console.log(error);
+    }
+    if (data) {
+      console.log(data);
+      setMessages(data);
+    }
+  }, [data, isLoading, error]);
+
+  useEffect(() => {
+    const chatContainer = document.querySelector('#chat-container');
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }, [messages]);
 
   return (
     <div className='bg-indigo-900/20 h-full w-full rounded-md p-[0.1rem]'>
@@ -35,8 +62,25 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
           </div>
         </nav>
 
-        <div className='h-[31rem] overflow-y-scroll p-2'>
+        <div
+          id='chat-container'
+          className='h-[31rem] overflow-y-scroll flex flex-col  p-2'
+        >
           {/* Messages here */}
+          {messages &&
+            messages.length > 0 &&
+            messages.map((message) => (
+              <div
+                key={message._id}
+                className={`${
+                  message.sender._id === id ? 'justify-end' : 'justify-start'
+                } p-2  w-full  flex text-white my-2`}
+              >
+                <p className='bg-indigo-600 rounded-md p-2 '>
+                  {message.message}
+                </p>
+              </div>
+            ))}
         </div>
 
         <form onSubmit={handleCreateMessage} className=''>

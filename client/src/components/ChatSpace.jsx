@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   useGetChatsMutation,
   useCreateChatMutation,
@@ -6,6 +6,7 @@ import {
 import useAuth from '../hooks/useAuth';
 import { useSearchUserMutation } from '../app/slices/userApiSlice';
 import ChatContainer from './ChatContainer';
+import { io } from 'socket.io-client';
 
 const ChatSpace = () => {
   const id = useAuth();
@@ -15,9 +16,15 @@ const ChatSpace = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const socket = useRef(io('http://localhost:5000'));
+
   const [getChats, { data, isLoading, error }] = useGetChatsMutation();
   const [searchUser, { data: searchData }] = useSearchUserMutation();
   const [createChat] = useCreateChatMutation();
+
+  useEffect(() => {
+    socket.current.emit('add-user', id);
+  }, [id]);
 
   // set search data
   useEffect(() => {
@@ -115,6 +122,7 @@ const ChatSpace = () => {
       <div className='flex-grow ml-6 '>
         {currentChat && selectedUser && (
           <ChatContainer
+            socket={socket.current}
             currentChat={currentChat}
             selectedUser={selectedUser}
           />

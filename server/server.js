@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const io = require('socket.io');
+const http = require('http');
 const cookieParser = require('cookie-parser');
 require('express-async-errors');
 require('dotenv').config();
@@ -12,6 +14,7 @@ const errorHandler = require('./middleware/errorHandler');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
+const server = http.createServer(app);
 
 connectDb(); // Connect to db before starting the server
 
@@ -26,9 +29,34 @@ app.use('/api/user', require('./view/userRoute'));
 app.use('/api/chat', require('./view/chatRoute'));
 app.use('/api/message', require('./view/messageRoute'));
 
-mongoose.connection.once('open', () => {
-  console.log('Connected to db!');
-  app.listen(PORT, () => {
-    console.log(`Server started on PORT:${PORT}`);
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+  server.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+  });
+});
+
+const socket = io(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: 'http://localhost:5173',
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+
+socket.on('connection', (socket) => {
+  global.chatSocket = socket;
+  socket.on('add-user', (userId) => {
+    console.log('User connected: ' + userId);
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on('send-msg', (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit('msg-recieve', data);
+    }
   });
 });

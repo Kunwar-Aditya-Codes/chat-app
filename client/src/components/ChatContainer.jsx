@@ -5,11 +5,12 @@ import {
 } from '../app/slices/messagesApiSlice';
 import useAuth from '../hooks/useAuth';
 
-const ChatContainer = ({ currentChat, selectedUser }) => {
+const ChatContainer = ({ currentChat, selectedUser, socket }) => {
   const id = useAuth();
 
   const [textMessage, setTextMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState(null);
 
   const scrollRef = useRef();
 
@@ -19,14 +20,37 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
   const handleCreateMessage = async (e) => {
     e.preventDefault();
     if (textMessage.length > 0) {
-      await createMessage({
+      const newMessage = await createMessage({
         message: textMessage,
         sender: id,
         chatId: currentChat.data._id,
       });
       setTextMessage('');
+
+      socket.emit('send-msg', {
+        to: selectedUser?._id,
+        message: newMessage.data.message,
+        sender: newMessage.data.sender,
+        _id: newMessage.data._id,
+      });
+
+      const message = [...messages];
+      message.push(newMessage.data);
+      setMessages(message);
     }
   };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('msg-recieve', (data) => {
+        setNewMessage(data);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    newMessage && setMessages((prev) => [...prev, newMessage]);
+  }, [newMessage]);
 
   useEffect(() => {
     getMessages(currentChat.data._id);
@@ -40,7 +64,6 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
       console.log(error);
     }
     if (data) {
-      console.log(data);
       setMessages(data);
     }
   }, [data, isLoading, error]);

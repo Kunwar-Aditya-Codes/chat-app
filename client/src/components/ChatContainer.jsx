@@ -1,8 +1,26 @@
 import { useState } from 'react';
-import { useCreateChatMutation } from '../app/slices/chatApiSlice';
+import { useCreateMessageMutation } from '../app/slices/messagesApiSlice';
+import useAuth from '../hooks/useAuth';
 
 const ChatContainer = ({ currentChat, selectedUser }) => {
+  const id = useAuth();
+
   const [textMessage, setTextMessage] = useState('');
+
+  const [createMessage] = useCreateMessageMutation();
+
+  const handleCreateMessage = async (e) => {
+    e.preventDefault();
+    if (textMessage.length > 0) {
+      await createMessage({
+        message: textMessage,
+        sender: id,
+        chatId: currentChat.data._id,
+      });
+      setTextMessage('');
+    }
+  };
+
   return (
     <div className='bg-indigo-900/20 h-full w-full rounded-md p-[0.1rem]'>
       <div className='h-full flex flex-col w-full  rounded-md '>
@@ -21,7 +39,7 @@ const ChatContainer = ({ currentChat, selectedUser }) => {
           {/* Messages here */}
         </div>
 
-        <form className=''>
+        <form onSubmit={handleCreateMessage} className=''>
           <input
             type='text'
             name='textMessage'

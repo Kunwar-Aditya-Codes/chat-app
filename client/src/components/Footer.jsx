@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
-    <div className='bg-gradient-to-br from-indigo-600 to-sky-600 pt-[0.1rem]'>
+    <div className='bg-indigo-900/20 border-t-2 border-t-indigo-600 pt-[0.1rem]'>
       <div
-        className='bg-black/90 text-sm py-3 space-x-2 flex items-center justify-center
+        className=' text-sm py-4 space-x-2 flex items-center justify-center
        text-center '
       >
         <p>&copy; {new Date().getFullYear()} Mern Chat - Kunwar Aditya.</p>

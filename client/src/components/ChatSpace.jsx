@@ -13,7 +13,8 @@ const ChatSpace = () => {
 
   const [searchText, setSearchText] = useState('');
   const [userChatList, setUserChatList] = useState([]);
-  
+  const [currentChat, setCurrentChat] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const [getChats, { data, isLoading, error }] = useGetChatsMutation();
   const [searchUser, { data: searchData }] = useSearchUserMutation();
@@ -36,13 +37,12 @@ const ChatSpace = () => {
   // set user chat list
   useEffect(() => {
     if (isLoading) {
-      toast.loading('Loading...', { id: 'fetch' });
+      console.log('fetching');
     }
     if (error) {
-      toast.error(error.data.message, { id: 'fetch' });
+      console.log(error);
     }
     if (data) {
-      toast.dismiss('fetch');
       const chats = data.map((chat) =>
         chat.users.find((user) => user._id !== id)
       );
@@ -58,21 +58,29 @@ const ChatSpace = () => {
   }, [searchText, searchUser]);
 
   // create chat
-  const handleCreateChat = async (selectedUser) => {
+  const handleCreateChat = async () => {
     if (selectedUser) {
       const chat = await createChat({
         senderId: id,
         receiverId: selectedUser._id,
       });
 
-      console.log(chat);
+      if (chat) {
+        setCurrentChat(chat);
+      }
     }
   };
 
+  useEffect(() => {
+    if (selectedUser) {
+      handleCreateChat();
+    }
+  }, [selectedUser]);
+
   return (
     <div className='flex h-full  '>
-      <div className='flex-[0.2] bg-gradient-to-br rounded-md from-indigo-600 to-sky-600 p-[0.15rem]'>
-        <div className='flex flex-col h-full bg-black/90  space-y-7 rounded-md p-4'>
+      <div className='flex-[0.2] bg-indigo-900/20 rounded-md  p-[0.15rem]'>
+        <div className='flex flex-col h-full   space-y-7 rounded-md p-4'>
           <input
             type='text'
             name='search'
@@ -88,8 +96,8 @@ const ChatSpace = () => {
             {userChatList.map((user) => (
               <div
                 key={user._id}
-                onClick={() => handleCreateChat(user)}
-                className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900 transition ease-in rounded-md p-2'
+                onClick={() => setSelectedUser(user)}
+                className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900/20 transition ease-in rounded-md p-2'
               >
                 <img
                   src={user.profilePic}
@@ -104,8 +112,19 @@ const ChatSpace = () => {
       </div>
 
       {/* Chat container */}
-      <div>
-        <ChatContainer />
+      <div className='flex-grow ml-6'>
+        {currentChat && selectedUser && (
+          <ChatContainer
+            currentChat={currentChat}
+            selectedUser={selectedUser}
+          />
+        )}
+
+        {!currentChat && !selectedUser && (
+          <div className='flex items-center justify-center h-full'>
+            <p className='text-2xl text-indigo-600'>Select a user to chat</p>
+          </div>
+        )}
       </div>
     </div>
   );

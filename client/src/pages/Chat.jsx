@@ -27,8 +27,8 @@ const Chat = () => {
   return (
     <div className='h-full flex flex-col items-center max-w-[90rem] mx-auto w-full'>
       {/* User Header */}
-      <div className='mt-4 mb-10 bg-gradient-to-br from-indigo-600 to-sky-600 rounded-md w-full p-[0.1rem] '>
-        <div className='bg-black/90 py-3 flex items-center rounded-md justify-between px-4'>
+      <div className='mt-4 mb-6 bg-indigo-900/20 rounded-md w-full p-[0.1rem] border-b-2 border-b-indigo-600'>
+        <div className=' py-3 flex items-center rounded-md justify-between px-4'>
           <div className='flex items-center space-x-4 '>
             <img
               src={data?.profilePic}

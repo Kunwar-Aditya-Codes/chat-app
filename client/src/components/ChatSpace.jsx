@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useGetChatsMutation } from '../app/slices/chatApiSlice';
+import {
+  useGetChatsMutation,
+  useCreateChatMutation,
+} from '../app/slices/chatApiSlice';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { useSearchUserMutation } from '../app/slices/userApiSlice';
@@ -10,9 +13,11 @@ const ChatSpace = () => {
 
   const [searchText, setSearchText] = useState('');
   const [userChatList, setUserChatList] = useState([]);
+  
 
   const [getChats, { data, isLoading, error }] = useGetChatsMutation();
   const [searchUser, { data: searchData }] = useSearchUserMutation();
+  const [createChat] = useCreateChatMutation();
 
   // set search data
   useEffect(() => {
@@ -52,6 +57,18 @@ const ChatSpace = () => {
     }
   }, [searchText, searchUser]);
 
+  // create chat
+  const handleCreateChat = async (selectedUser) => {
+    if (selectedUser) {
+      const chat = await createChat({
+        senderId: id,
+        receiverId: selectedUser._id,
+      });
+
+      console.log(chat);
+    }
+  };
+
   return (
     <div className='flex h-full  '>
       <div className='flex-[0.2] bg-gradient-to-br rounded-md from-indigo-600 to-sky-600 p-[0.15rem]'>
@@ -71,7 +88,7 @@ const ChatSpace = () => {
             {userChatList.map((user) => (
               <div
                 key={user._id}
-                onClick={() => console.log(user)}
+                onClick={() => handleCreateChat(user)}
                 className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900 transition ease-in rounded-md p-2'
               >
                 <img

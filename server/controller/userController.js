@@ -59,7 +59,10 @@ exports.searchUsers = async (req, res) => {
         ],
       },
     ],
-  });
+  })
+    .select('-password')
+    .lean()
+    .exec();
 
   res.status(200).json(foundUsers);
 };

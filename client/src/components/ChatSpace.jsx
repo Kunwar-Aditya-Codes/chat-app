@@ -3,6 +3,7 @@ import { useGetChatsMutation } from '../app/slices/chatApiSlice';
 import useAuth from '../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { useSearchUserMutation } from '../app/slices/userApiSlice';
+import ChatContainer from './ChatContainer';
 
 const ChatSpace = () => {
   const id = useAuth();
@@ -11,7 +12,6 @@ const ChatSpace = () => {
   const [userChatList, setUserChatList] = useState([]);
 
   const [getChats, { data, isLoading, error }] = useGetChatsMutation();
-
   const [searchUser, { data: searchData }] = useSearchUserMutation();
 
   // set search data
@@ -23,7 +23,7 @@ const ChatSpace = () => {
 
   // get chats
   useEffect(() => {
-    if (!searchText || searchText.length < 4) {
+    if (!searchText || searchText.length === 0) {
       getChats(id);
     }
   }, [searchText, getChats, id]);
@@ -71,6 +71,7 @@ const ChatSpace = () => {
             {userChatList.map((user) => (
               <div
                 key={user._id}
+                onClick={() => console.log(user)}
                 className='flex items-center space-x-4 cursor-pointer hover:bg-indigo-900 transition ease-in rounded-md p-2'
               >
                 <img
@@ -86,7 +87,9 @@ const ChatSpace = () => {
       </div>
 
       {/* Chat container */}
-      <div></div>
+      <div>
+        <ChatContainer />
+      </div>
     </div>
   );
 };

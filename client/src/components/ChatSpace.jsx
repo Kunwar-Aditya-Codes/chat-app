@@ -23,7 +23,7 @@ const ChatSpace = () => {
   const [createChat] = useCreateChatMutation();
 
   useEffect(() => {
-    socket.current = io('ws://localhost:8900');
+    socket.current = io('http://localhost:5000');
 
     return () => {
       socket.current.disconnect();

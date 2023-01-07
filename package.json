@@ -5,5 +5,8 @@
   "repository": "https://github.com/Kunwar-Aditya-Codes/chat-app.git",
   "author": "Kunwar Aditya <adityakunwar0147@gmail.com>",
   "license": "MIT",
-  "scripts": {}
+  "scripts": {
+    "build": "cd server && yarn install --ignore-engines && cd ../client && yarn install --ignore-engines && yarn build",
+    "start": "node server/server.js"
+  }
 }

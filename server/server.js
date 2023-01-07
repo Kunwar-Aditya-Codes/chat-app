@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const http = require('http');
 const path = require('path');
 const io = require('socket.io');
@@ -10,7 +9,6 @@ require('dotenv').config();
 
 // External modules
 const connectDb = require('./utils/mongoConnect');
-const corsOptions = require('./utils/corsConfig');
 const errorHandler = require('./middleware/errorHandler');
 
 const PORT = process.env.PORT || 5000;
@@ -21,7 +19,7 @@ connectDb(); // Connect to db before starting the server
 
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-app.use(cors()); // Enable CORS
+
 app.use(errorHandler); // Error handler
 
 // Routes
@@ -30,9 +28,10 @@ app.use('/api/user', require('./view/userRoute'));
 app.use('/api/chat', require('./view/chatRoute'));
 app.use('/api/message', require('./view/messageRoute'));
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/dist/index.html'));
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 mongoose.connection.on('connected', () => {
@@ -42,12 +41,7 @@ mongoose.connection.on('connected', () => {
   });
 });
 
-const ioSocket = io(server, {
-  cors: {
-    origin: 'http://localhost:5173',
-    credentials: true,
-  },
-});
+const ioSocket = io(server);
 
 global.onlineUsers = new Map();
 

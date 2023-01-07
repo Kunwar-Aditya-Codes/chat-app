@@ -28,8 +28,8 @@ app.use('/api/user', require('./view/userRoute'));
 app.use('/api/chat', require('./view/chatRoute'));
 app.use('/api/message', require('./view/messageRoute'));
 
+__dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'client/dist')));
-
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });

@@ -21,7 +21,7 @@ connectDb(); // Connect to db before starting the server
 
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-// app.use(cors(corsOptions)); // Enable CORS
+app.use(cors()); // Enable CORS
 app.use(errorHandler); // Error handler
 
 // Routes

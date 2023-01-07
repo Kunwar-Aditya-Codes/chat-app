@@ -7,7 +7,6 @@ import useAuth from '../hooks/useAuth';
 
 const ChatContainer = ({ currentChat, selectedUser, socket }) => {
   const id = useAuth();
-  console.log(currentChat);
 
   const [textMessage, setTextMessage] = useState('');
   const [messages, setMessages] = useState([]);

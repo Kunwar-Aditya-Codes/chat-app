@@ -36,17 +36,19 @@ const ChatSpace = () => {
 
   // set search data
   useEffect(() => {
-    if (searchData) {
-      setUserChatList(searchData);
-    }
+    searchData && setUserChatList(searchData);
   }, [searchData]);
 
-  // get chats
+  // get chats & search user
   useEffect(() => {
     if (!searchText || searchText.length === 0) {
       getChats(id);
     }
-  }, [searchText, getChats, id]);
+
+    if (searchText && searchText.length > 3) {
+      searchUser(searchText);
+    }
+  }, [searchText, searchUser, getChats, id]);
 
   // set user chat list
   useEffect(() => {
@@ -62,14 +64,7 @@ const ChatSpace = () => {
       );
       setUserChatList(chats);
     }
-  }, [data, isLoading, error]);
-
-  // search user
-  useEffect(() => {
-    if (searchText && searchText.length > 3) {
-      searchUser(searchText);
-    }
-  }, [searchText, searchUser]);
+  }, [isLoading, error, data, id]);
 
   // create chat
   const handleCreateChat = async () => {

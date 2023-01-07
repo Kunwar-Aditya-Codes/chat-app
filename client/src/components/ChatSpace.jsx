@@ -16,11 +16,19 @@ const ChatSpace = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const socket = useRef(io('http://localhost:5000'));
+  const socket = useRef();
 
   const [getChats, { data, isLoading, error }] = useGetChatsMutation();
   const [searchUser, { data: searchData }] = useSearchUserMutation();
   const [createChat] = useCreateChatMutation();
+
+  useEffect(() => {
+    socket.current = io('ws://localhost:8900');
+
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     socket.current.emit('add-user', id);

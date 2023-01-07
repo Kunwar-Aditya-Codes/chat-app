@@ -7,10 +7,11 @@ import useAuth from '../hooks/useAuth';
 
 const ChatContainer = ({ currentChat, selectedUser, socket }) => {
   const id = useAuth();
+  console.log(currentChat);
 
   const [textMessage, setTextMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState(null);
+  const [arrivedMessage, setArrivedMessage] = useState(null);
 
   const scrollRef = useRef();
 
@@ -27,30 +28,36 @@ const ChatContainer = ({ currentChat, selectedUser, socket }) => {
       });
       setTextMessage('');
 
-      socket.emit('send-msg', {
-        to: selectedUser?._id,
-        message: newMessage.data.message,
-        sender: newMessage.data.sender,
-        _id: newMessage.data._id,
+      socket.emit('send-message', {
+        _id: currentChat.data._id,
+        sender: id,
+        receiverId: selectedUser?._id,
+        message: newMessage?.data?.message,
       });
 
-      const message = [...messages];
-      message.push(newMessage.data);
-      setMessages(message);
+      setMessages((prev) => [...prev, newMessage.data]);
     }
   };
 
   useEffect(() => {
-    if (socket) {
-      socket.on('msg-recieve', (data) => {
-        setNewMessage(data);
+    socket.on('get-message', (data) => {
+      setArrivedMessage({
+        sender: data.sender,
+        message: data.message,
+        _id: data._id,
       });
-    }
+    });
+
+    return () => {
+      socket.off('get-message');
+    };
   }, []);
 
   useEffect(() => {
-    newMessage && setMessages((prev) => [...prev, newMessage]);
-  }, [newMessage]);
+    arrivedMessage &&
+      currentChat.data._id === arrivedMessage._id &&
+      setMessages((prev) => [...prev, arrivedMessage]);
+  }, [arrivedMessage, currentChat]);
 
   useEffect(() => {
     getMessages(currentChat.data._id);
@@ -112,6 +119,7 @@ const ChatContainer = ({ currentChat, selectedUser, socket }) => {
             type='text'
             name='textMessage'
             id='textMessage'
+            autoComplete='off'
             value={textMessage}
             onChange={(e) => setTextMessage(e.target.value)}
             placeholder='Type a message'

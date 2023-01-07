@@ -36,27 +36,27 @@ mongoose.connection.on('connected', () => {
   });
 });
 
-const socket = io(server, {
-  pingTimeout: 60000,
-  cors: {
-    origin: 'http://localhost:5173',
-    credentials: true,
-  },
-});
+// const socket = io(server, {
+//   pingTimeout: 60000,
+//   cors: {
+//     origin: 'http://localhost:5173',
+//     credentials: true,
+//   },
+// });
 
-global.onlineUsers = new Map();
+// global.onlineUsers = new Map();
 
-socket.on('connection', (socket) => {
-  global.chatSocket = socket;
-  socket.on('add-user', (userId) => {
-    console.log('User connected: ' + userId);
-    onlineUsers.set(userId, socket.id);
-  });
+// socket.on('connection', (socket) => {
+//   global.chatSocket = socket;
+//   socket.on('add-user', (userId) => {
+//     console.log('User connected: ' + userId);
+//     onlineUsers.set(userId, socket.id);
+//   });
 
-  socket.on('send-msg', (data) => {
-    const sendUserSocket = onlineUsers.get(data.to);
-    if (sendUserSocket) {
-      socket.to(sendUserSocket).emit('msg-recieve', data);
-    }
-  });
-});
+//   socket.on('send-msg', (data) => {
+//     const sendUserSocket = onlineUsers.get(data.to);
+//     if (sendUserSocket) {
+//       socket.to(sendUserSocket).emit('msg-recieve', data);
+//     }
+//   });
+// });

@@ -23,7 +23,7 @@ const ChatSpace = () => {
   const [createChat] = useCreateChatMutation();
 
   useEffect(() => {
-    socket.current = io('http://localhost:5000');
+    socket.current = io('https://mern-chat-w5is.onrender.com');
 
     return () => {
       socket.current.disconnect();

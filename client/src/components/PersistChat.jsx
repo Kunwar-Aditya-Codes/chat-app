@@ -15,7 +15,7 @@ const PersistChat = () => {
     useRefreshMutation();
 
   useEffect(() => {
-    if (effectRan.current === true) {
+    if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
       const verifyRefreshToken = async () => {
         try {
           await refresh();

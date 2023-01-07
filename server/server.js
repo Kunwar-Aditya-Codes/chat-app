@@ -41,7 +41,12 @@ mongoose.connection.on('connected', () => {
   });
 });
 
-const ioSocket = io(server);
+const ioSocket = io(server, {
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
+});
 
 global.onlineUsers = new Map();
 

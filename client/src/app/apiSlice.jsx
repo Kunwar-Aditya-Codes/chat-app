@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials } from './slices/authSlice';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api',
+  baseUrl: 'https://mern-chat-w5is.onrender.com/api',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = getState()?.auth?.token;

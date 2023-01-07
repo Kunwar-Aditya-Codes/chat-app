@@ -1,4 +1,8 @@
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:3001'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3001',
+  'https://mern-chat-w5is.onrender.com',
+];
 
 const corsOptions = {
   origin: (origin, callback) => {

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const path = require('path');
+const cors = require('cors');
 const io = require('socket.io');
 const cookieParser = require('cookie-parser');
 require('express-async-errors');
@@ -9,6 +10,7 @@ require('dotenv').config();
 
 // External modules
 const connectDb = require('./utils/mongoConnect');
+const corsOptions = require('./utils/corsConfig');
 const errorHandler = require('./middleware/errorHandler');
 
 const PORT = process.env.PORT || 5000;
@@ -19,7 +21,7 @@ connectDb(); // Connect to db before starting the server
 
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-
+app.use(cors(corsOptions)); // CORS
 app.use(errorHandler); // Error handler
 
 // Routes
@@ -43,7 +45,7 @@ mongoose.connection.on('connected', () => {
 
 const ioSocket = io(server, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:5173',
     credentials: true,
   },
 });

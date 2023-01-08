@@ -8,7 +8,7 @@ import { useSearchUserMutation } from '../app/slices/userApiSlice';
 import ChatContainer from './ChatContainer';
 import { io } from 'socket.io-client';
 
-const ChatSpace = () => {
+const ChatSpace = ({ showSidebar, setShowSidebar }) => {
   const id = useAuth();
 
   const [searchText, setSearchText] = useState('');
@@ -23,7 +23,8 @@ const ChatSpace = () => {
   const [createChat] = useCreateChatMutation();
 
   useEffect(() => {
-    socket.current = io('https://mern-chat-w5is.onrender.com');
+    // socket.current = io('https://mern-chat-w5is.onrender.com');
+    socket.current = io('http://localhost:5000');
 
     return () => {
       socket.current.disconnect();
@@ -76,6 +77,7 @@ const ChatSpace = () => {
 
       if (chat) {
         setCurrentChat(chat);
+        setShowSidebar(false);
       }
     }
   };
@@ -87,8 +89,14 @@ const ChatSpace = () => {
   }, [selectedUser]);
 
   return (
-    <div className='flex h-full  '>
-      <div className='flex-[0.2] bg-indigo-900/20 rounded-md  p-[0.15rem]'>
+    <div className='flex h-full relative'>
+      {/* Sidebar */}
+
+      <div
+        className={`
+        ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
+        md:flex-[0.2] bg-black rounded-md md:flex  p-[0.15rem] md:translate-x-0 transition ease-out duration-300  w-full flex-grow absolute md:relative z-[1000]`}
+      >
         <div className='flex flex-col h-full   space-y-5 rounded-md p-4'>
           <input
             type='text'
@@ -122,7 +130,7 @@ const ChatSpace = () => {
       </div>
 
       {/* Chat container */}
-      <div className='flex-grow ml-6 '>
+      <div className='flex-grow md:ml-6 px-1 mb-3 md:mb-0 '>
         {currentChat && selectedUser && (
           <ChatContainer
             socket={socket.current}

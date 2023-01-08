@@ -81,7 +81,7 @@ const ChatContainer = ({ currentChat, selectedUser, socket }) => {
   }, [messages]);
 
   return (
-    <div className='bg-indigo-900/20 h-full w-full rounded-md p-[0.1rem]'>
+    <div className='bg-black h-full w-full rounded-md p-[0.1rem]'>
       <div className='h-full flex flex-col w-full  rounded-md '>
         <nav className='p-4   z-[100]  border-b-2 shadow-lg border-indigo-600'>
           <div className='flex  items-center space-x-4'>

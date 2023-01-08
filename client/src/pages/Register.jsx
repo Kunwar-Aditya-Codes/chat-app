@@ -86,11 +86,11 @@ const Register = () => {
 
   return (
     <div className='h-full flex items-center justify-center'>
-      <div className='h-[80%] w-[45%] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-sky-600 rounded-md'>
-        <div className='h-[99.5%] w-[99.5%] bg-black/90 rounded-md'>
+      <div className='h-[80%] md:w-[45%] w-[80%] p-[0.12rem] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-sky-600 rounded-md'>
+        <div className='h-full w-full bg-black/90 rounded-md'>
           <form
             onSubmit={handleSubmit}
-            className='flex flex-col mx-24 justify-evenly text-lg p-4 h-full'
+            className='flex flex-col  justify-evenly text-lg p-4  w-full max-w-[24rem] mx-auto  items-center h-full'
           >
             <input
               type='text'
@@ -98,7 +98,7 @@ const Register = () => {
               placeholder='Username'
               value={userInput.username}
               onChange={handleChange}
-              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md py-3 px-2'
+              className='outline-none bg-transparent border-2 border-indigo-600 w-full rounded-md py-3 px-2'
             />
 
             <input
@@ -107,7 +107,7 @@ const Register = () => {
               placeholder='Email'
               value={userInput.email}
               onChange={handleChange}
-              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md py-3 px-2'
+              className='outline-none bg-transparent border-2 border-indigo-600 w-full rounded-md py-3 px-2'
             />
 
             <input
@@ -116,7 +116,7 @@ const Register = () => {
               placeholder='Password'
               value={userInput.password}
               onChange={handleChange}
-              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md py-3 px-2'
+              className='outline-none bg-transparent border-2 border-indigo-600 w-full rounded-md py-3 px-2'
             />
 
             <input
@@ -124,7 +124,7 @@ const Register = () => {
               name='profilePic'
               onChange={(e) => handleProfilePic(e.target.files[0])}
               className='outline-none bg-transparent border-2 border-indigo-600 rounded-md 
-                cursor-pointer file:cursor-pointer file:bg-indigo-600  file:text-white   file:mr-2  file:rounded-md file:py-2 file:px-3 
+                cursor-pointer file:cursor-pointer file:bg-indigo-600  file:text-white w-full  file:mr-2  file:rounded-md file:py-2 file:px-3 
               '
             />
 
@@ -137,7 +137,7 @@ const Register = () => {
                 !userInput.email ||
                 !userInput.password
               }
-              className='outline-none bg-indigo-600 rounded-md py-3 px-2 disabled:bg-gray-500 disabled:cursor-not-allowed'
+              className='outline-none bg-indigo-600 w-full rounded-md py-3 px-2 disabled:bg-gray-500 disabled:cursor-not-allowed'
             >
               Register
             </button>

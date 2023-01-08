@@ -57,11 +57,11 @@ const Login = () => {
 
   return (
     <div className='h-full flex items-center justify-center'>
-      <div className='h-[70%] w-[45%] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-sky-600 rounded-md'>
-        <div className='h-[99.5%] w-[99.5%] bg-black/90 rounded-md'>
+      <div className='h-[70%] md:w-[45%] w-[80%] flex items-center justify-center bg-gradient-to-br from-indigo-600 to-sky-600 rounded-md p-[0.12rem]'>
+        <div className='h-full w-full bg-black/90 rounded-md'>
           <form
             onSubmit={handleSubmit}
-            className='flex flex-col mx-24 justify-evenly text-lg p-4 h-full'
+            className='flex flex-col  justify-evenly text-lg p-4  w-full max-w-[24rem] mx-auto  items-center h-full'
           >
             <input
               type='email'
@@ -69,7 +69,7 @@ const Login = () => {
               value={userInput.email}
               onChange={handleChange}
               placeholder='Email'
-              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md py-3 px-2'
+              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md w-full  py-3 px-2'
             />
 
             <input
@@ -78,13 +78,13 @@ const Login = () => {
               value={userInput.password}
               onChange={handleChange}
               placeholder='Password'
-              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md py-3 px-2'
+              className='outline-none bg-transparent border-2 border-indigo-600 rounded-md w-full py-3 px-2'
             />
 
             <button
               type='submit'
               disabled={isLoading || !userInput.email || !userInput.password}
-              className='outline-none bg-indigo-600 rounded-md py-3 px-2 disabled:bg-gray-500 disabled:cursor-not-allowed'
+              className='outline-none bg-indigo-600 rounded-md py-3 px-2 w-full disabled:bg-gray-500 disabled:cursor-not-allowed'
             >
               Login
             </button>

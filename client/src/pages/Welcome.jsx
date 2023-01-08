@@ -4,10 +4,10 @@ const Welcome = () => {
   return (
     <div className='h-full flex items-center justify-center'>
       <div className=' h-[80%] w-[80%] bg-gradient-to-tr shadow-lg from-indigo-600  to-sky-600 rounded-md flex items-center justify-center'>
-        <div className='bg-black/90 h-[99.5%] w-[99.5%] rounded-md flex flex-col'>
+        <div className='bg-black/90 h-[99.5%] w-[99.5%] rounded-md flex flex-col md:flex-row'>
           {/* Title */}
           <div className='flex-[0.5] md:p-4 text-lg flex flex-col items-center justify-center space-y-8 md:space-y-16'>
-            <h1 className='text-indigo-600 font-bold text-5xl md:text-8xl'>
+            <h1 className='text-indigo-600 text-center font-bold text-5xl md:text-8xl'>
               Mern Chat
             </h1>
             <p className='text-justify  font-light px-6 md:px-9'>

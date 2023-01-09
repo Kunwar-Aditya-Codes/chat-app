@@ -23,8 +23,8 @@ const ChatSpace = ({ showSidebar, setShowSidebar }) => {
   const [createChat] = useCreateChatMutation();
 
   useEffect(() => {
-    // socket.current = io('https://mern-chat-w5is.onrender.com');
-    socket.current = io('http://localhost:5000');
+    socket.current = io('https://mern-chat-w5is.onrender.com');
+    // socket.current = io('http://localhost:5000');
 
     return () => {
       socket.current.disconnect();

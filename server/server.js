@@ -21,7 +21,7 @@ connectDb(); // Connect to db before starting the server
 
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
-app.use(cors(corsOptions)); // CORS
+// app.use(cors(corsOptions)); // CORS
 app.use(errorHandler); // Error handler
 
 // Routes
@@ -45,8 +45,8 @@ mongoose.connection.on('connected', () => {
 
 const ioSocket = io(server, {
   cors: {
-    origin: 'http://localhost:5173',
-    // origin: '*',
+    // origin: 'http://localhost:5173',
+    origin: '*',
     credentials: true,
   },
 });
